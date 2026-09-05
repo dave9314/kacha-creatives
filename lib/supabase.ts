@@ -1,12 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Public client - safe for browser use
+// Public client — safe for browser (read-only storage)
 export const supabasePublic = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-// Server-only admin client - NEVER expose to browser
+// Server-only admin client — NEVER expose to browser
 export function getSupabaseAdmin() {
   if (typeof window !== "undefined") {
     throw new Error("Supabase admin client must only be used server-side");
@@ -23,7 +23,6 @@ export function getSupabaseAdmin() {
   );
 }
 
-// Storage bucket names
 export const BUCKETS = {
   PORTFOLIO: "kacha-portfolio",
   TEAM: "kacha-team",
@@ -31,9 +30,8 @@ export const BUCKETS = {
   CONTACT_DOCUMENTS: "kacha-contact-documents",
 } as const;
 
-// Generate a safe storage path
 export function generateStoragePath(
-  bucket: string,
+  _bucket: string,
   folder: string,
   filename: string
 ): string {

@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
@@ -9,9 +9,9 @@ const loginSchema = z.object({
   password: z.string().min(6),
 });
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
-    Credentials({
+    CredentialsProvider({
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
@@ -22,7 +22,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!parsed.success) return null;
 
         const { email, password } = parsed.data;
-
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user || user.role !== "ADMIN") return null;
 
@@ -31,7 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         return {
           id: user.id,
-          name: user.name,
+          name: user.name ?? undefined,
           email: user.email,
           role: user.role,
         };
@@ -47,9 +46,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.role = token.role as string;
-        session.user.id = token.id as string;
+      if (token && session.user) {
+        (session.user as { role?: string; id?: string }).role = token.role as string;
+        (session.user as { role?: string; id?: string }).id = token.id as string;
       }
       return session;
     },
@@ -60,6 +59,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   session: {
     strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 24 hours
+    maxAge: 24 * 60 * 60,
   },
-});
+  secret: process.env.AUTH_SECRET,
+};
+
+const handler = NextAuth(authOptions);
+export { handler };
+
+// Helper to get session in server components / actions
+export async function auth() {
+  const { getServerSession } = await import("next-auth/next");
+  return getServerSession(authOptions);
+}
+
+export { authOptions as default };

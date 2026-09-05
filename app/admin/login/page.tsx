@@ -4,8 +4,9 @@ import { useState, useTransition } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, Lock } from "lucide-react";
+import { Suspense } from "react";
 
-export default function AdminLogin() {
+function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/admin";
@@ -48,23 +49,14 @@ export default function AdminLogin() {
               <span className="font-display font-bold text-brand-dark text-xl">K</span>
             </div>
             <div className="text-left">
-              <div className="font-display font-bold text-white text-xl leading-none">
-                KACHA
-              </div>
-              <div className="text-brand-amber text-xs tracking-[0.3em]">
-                CREATIVES
-              </div>
+              <div className="font-display font-bold text-white text-xl leading-none">KACHA</div>
+              <div className="text-brand-amber text-xs tracking-[0.3em]">CREATIVES</div>
             </div>
           </div>
-          <h1 className="font-display font-bold text-white text-2xl mb-2">
-            Admin Dashboard
-          </h1>
-          <p className="text-white/40 text-sm">
-            Authorized personnel only
-          </p>
+          <h1 className="font-display font-bold text-white text-2xl mb-2">Admin Dashboard</h1>
+          <p className="text-white/40 text-sm">Authorized personnel only</p>
         </div>
 
-        {/* Form */}
         <div className="glass-dark p-8">
           <div className="flex items-center gap-3 mb-8 p-4 bg-brand-amber/10 border border-brand-amber/20">
             <Lock className="w-4 h-4 text-brand-amber flex-shrink-0" />
@@ -109,11 +101,7 @@ export default function AdminLogin() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -152,5 +140,13 @@ export default function AdminLogin() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AdminLogin() {
+  return (
+    <Suspense>
+      <AdminLoginForm />
+    </Suspense>
   );
 }

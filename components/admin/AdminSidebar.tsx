@@ -35,24 +35,18 @@ export default function AdminSidebar() {
 
   return (
     <aside className="fixed left-0 top-0 h-full w-64 bg-brand-charcoal border-r border-white/5 flex flex-col z-50">
-      {/* Logo */}
       <div className="p-6 border-b border-white/5">
         <Link href="/admin" className="flex items-center gap-3">
           <div className="w-8 h-8 bg-brand-amber flex items-center justify-center">
             <span className="font-display font-bold text-brand-dark text-sm">K</span>
           </div>
           <div>
-            <div className="font-display font-bold text-white text-sm leading-none">
-              KACHA
-            </div>
-            <div className="text-brand-amber text-[9px] tracking-[0.3em]">
-              ADMIN
-            </div>
+            <div className="font-display font-bold text-white text-sm leading-none">KACHA</div>
+            <div className="text-brand-amber text-[9px] tracking-[0.3em]">ADMIN</div>
           </div>
         </Link>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -79,7 +73,6 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      {/* Bottom */}
       <div className="p-4 border-t border-white/5 space-y-1">
         <Link
           href="/"
