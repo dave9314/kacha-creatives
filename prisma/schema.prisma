@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+}
+
+enum MessageStatus {
+  NEW
+  READ
+  REPLIED
+  ARCHIVED
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String?
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?
+  photoUrl  String?
+  photoPath String?
+  order     Int      @default(0)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  items       String[]
+  order       Int      @default(0)
+  isVisible   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}
+
+model PortfolioProject {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  category    String
+  status      ProjectStatus @default(DRAFT)
+  isFeatured  Boolean       @default(false)
+  order       Int           @default(0)
+  coverUrl    String?
+  coverPath   String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  media       Media[]
+
+  @@index([status])
+  @@index([category])
+  @@index([isFeatured])
+  @@index([order])
+}
+
+model Media {
+  id          String           @id @default(cuid())
+  url         String
+  storagePath String
+  filename    String
+  mimeType    String
+  type        MediaType
+  size        Int
+  order       Int              @default(0)
+  projectId   String?
+  project     PortfolioProject? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([projectId])
+  @@index([type])
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  clientName  String
+  company     String
+  quote       String
+  authorName  String
+  logoUrl     String?
+  isPublished Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isPublished])
+  @@index([order])
+}
+
+model Comment {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  comment   String
+  rating    Int?
+  status    CommentStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status])
+}
+
+model ContactMessage {
+  id           String        @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  subject      String
+  description  String
+  documentUrl  String?
+  documentPath String?
+  documentName String?
+  documentType String?
+  documentSize Int?
+  status       MessageStatus @default(NEW)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model SiteSettings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}
