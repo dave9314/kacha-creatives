@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import Image from "next/image";
-import { Play, Image as ImageIcon, FileText } from "lucide-react";
+import { Play, FileText } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import AdminMediaActions from "@/components/admin/AdminMediaActions";
 
