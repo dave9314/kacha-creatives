@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Play, Camera, Video, Palette, TrendingUp } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 
 export default function Hero() {
   const scrollToContact = () => {
@@ -98,84 +98,58 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT — Attractive Visual */}
-          <div className="hidden lg:flex items-center justify-center animate-fade-in" style={{ animationDelay: "300ms" }}>
-            <div className="relative w-full max-w-[500px] aspect-square">
+          {/* RIGHT — Hero Image */}
+          <div className="hidden lg:flex items-center justify-center animate-fade-in relative" style={{ animationDelay: "300ms" }}>
+            <div className="relative w-full max-w-[500px] h-[600px]">
 
-              {/* Main central card */}
-              <div className="absolute inset-8 bg-gradient-to-br from-brand-charcoal via-brand-gray to-brand-dark border border-brand-amber/20 flex flex-col items-center justify-center gap-6 overflow-hidden">
-                {/* Amber glow inside */}
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-amber/8 via-transparent to-brand-amber/4" />
-                
-                {/* K logo */}
-                <div className="relative z-10 w-20 h-20 bg-brand-amber flex items-center justify-center">
-                  <span className="font-display font-bold text-brand-dark text-5xl leading-none">K</span>
-                </div>
+              {/* Dark background with amber glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-charcoal to-brand-dark border border-brand-amber/10 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent z-10" />
+                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-brand-dark to-transparent z-10" />
+                <div className="absolute inset-0 bg-brand-amber/3" />
 
-                {/* Company name */}
-                <div className="relative z-10 text-center">
-                  <div className="font-display font-bold text-white text-3xl tracking-wider leading-none">
-                    KACHA
-                  </div>
-                  <div className="text-brand-amber text-sm tracking-[0.5em] mt-1">
-                    CREATIVES
-                  </div>
-                  <div className="text-white/30 text-xs mt-3 tracking-widest uppercase">
-                    Digital Marketing Firm
-                  </div>
-                </div>
-
-                {/* Tagline */}
-                <div className="relative z-10 text-center px-6">
-                  <div className="h-[1px] w-12 bg-brand-amber/40 mx-auto mb-3" />
-                  <p className="text-white/40 text-xs leading-relaxed italic">
-                    "IGNITE YOUR BRAND. INSPIRE YOUR AUDIENCE."
-                  </p>
-                </div>
-
-                {/* Corner decorations */}
-                <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-brand-amber/40" />
-                <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-brand-amber/40" />
-                <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-brand-amber/40" />
-                <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-brand-amber/40" />
+                {/* Hero image */}
+                <img
+                  src="/hero-cameraman.png"
+                  alt="Kacha Creatives videographer with gimbal camera"
+                  className="w-full h-full object-cover object-center scale-105"
+                  style={{ mixBlendMode: "luminosity", opacity: 0.9 }}
+                />
               </div>
+
+              {/* Amber accent line */}
+              <div className="absolute left-0 top-8 bottom-8 w-1 bg-gradient-to-b from-transparent via-brand-amber to-transparent" />
+
+              {/* Corner frames */}
+              <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-brand-amber z-20" />
+              <div className="absolute top-4 right-4 w-10 h-10 border-t-2 border-r-2 border-brand-amber z-20" />
+              <div className="absolute bottom-4 left-4 w-10 h-10 border-b-2 border-l-2 border-brand-amber z-20" />
+              <div className="absolute bottom-4 right-4 w-10 h-10 border-b-2 border-r-2 border-brand-amber z-20" />
 
               {/* Floating service cards */}
-              <div className="absolute -top-4 -right-4 bg-brand-charcoal border border-white/10 p-3 flex items-center gap-2 shadow-xl animate-slide-up" style={{ animationDelay: "600ms" }}>
-                <div className="p-1.5 bg-brand-amber/10">
-                  <Video className="w-3.5 h-3.5 text-brand-amber" />
-                </div>
-                <span className="text-white/70 text-xs font-medium">Video Production</span>
+              <div className="absolute top-6 -right-5 bg-brand-charcoal/95 border border-brand-amber/30 px-3 py-2 flex items-center gap-2 z-20 shadow-xl">
+                <div className="w-2 h-2 bg-brand-amber rounded-full animate-pulse" />
+                <span className="text-white/80 text-xs font-medium">Video Production</span>
               </div>
 
-              <div className="absolute -bottom-4 -left-4 bg-brand-charcoal border border-white/10 p-3 flex items-center gap-2 shadow-xl animate-slide-up" style={{ animationDelay: "700ms" }}>
-                <div className="p-1.5 bg-brand-amber/10">
-                  <Palette className="w-3.5 h-3.5 text-brand-amber" />
-                </div>
-                <span className="text-white/70 text-xs font-medium">Brand Design</span>
+              <div className="absolute bottom-16 -left-5 bg-brand-charcoal/95 border border-brand-amber/30 px-3 py-2 flex items-center gap-2 z-20 shadow-xl">
+                <div className="w-2 h-2 bg-brand-amber rounded-full animate-pulse" />
+                <span className="text-white/80 text-xs font-medium">Brand Stories</span>
               </div>
 
-              <div className="absolute top-1/2 -left-8 -translate-y-1/2 bg-brand-charcoal border border-white/10 p-3 flex items-center gap-2 shadow-xl animate-slide-up" style={{ animationDelay: "800ms" }}>
-                <div className="p-1.5 bg-brand-amber/10">
-                  <Camera className="w-3.5 h-3.5 text-brand-amber" />
+              {/* Bottom info bar */}
+              <div className="absolute bottom-0 left-0 right-0 z-20 p-4 bg-gradient-to-t from-brand-dark via-brand-dark/90 to-transparent">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-brand-amber text-xs font-semibold tracking-widest uppercase">Kacha Creatives</p>
+                    <p className="text-white/40 text-xs">Addis Ababa, Ethiopia</p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="w-1.5 h-1.5 bg-brand-amber/60 rounded-full" />
+                    ))}
+                  </div>
                 </div>
-                <span className="text-white/70 text-xs font-medium">Photography</span>
-              </div>
-
-              <div className="absolute top-1/2 -right-8 -translate-y-1/2 bg-brand-charcoal border border-white/10 p-3 flex items-center gap-2 shadow-xl animate-slide-up" style={{ animationDelay: "900ms" }}>
-                <div className="p-1.5 bg-brand-amber/10">
-                  <TrendingUp className="w-3.5 h-3.5 text-brand-amber" />
-                </div>
-                <span className="text-white/70 text-xs font-medium">Social Media</span>
-              </div>
-
-              {/* Orbit ring */}
-              <div className="absolute inset-0 border border-brand-amber/8 rounded-full animate-spin" style={{ animationDuration: "20s" }} />
-              <div className="absolute inset-4 border border-white/5 rounded-full animate-spin" style={{ animationDuration: "15s", animationDirection: "reverse" }} />
-
-              {/* Addis Ababa badge */}
-              <div className="absolute -bottom-2 right-4 bg-brand-amber px-3 py-1">
-                <span className="text-brand-dark text-xs font-bold tracking-wider">ADDIS ABABA, ET</span>
               </div>
             </div>
           </div>
