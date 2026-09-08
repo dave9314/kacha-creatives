@@ -93,7 +93,7 @@ export default async function AdminDashboard() {
             Dashboard
           </h1>
           <p className="text-white/40 mt-1">
-            Welcome back, {session.user.name || "Admin"} — Kacha Creatives CMS
+            Welcome back, {session?.user?.name || "Admin"} — Kacha Creatives CMS
           </p>
         </div>
 

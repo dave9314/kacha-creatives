@@ -19,7 +19,7 @@ export default async function AdminSettingsPage() {
           <h1 className="font-display font-bold text-white text-3xl">Settings</h1>
           <p className="text-white/40 mt-1">Site configuration and admin account</p>
         </div>
-        <AdminSettingsForm settings={settingsMap} adminEmail={session.user.email || ""} />
+        <AdminSettingsForm settings={settingsMap} adminEmail={session?.user?.email || ""} />
       </main>
     </div>
   );
