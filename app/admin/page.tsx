@@ -20,6 +20,9 @@ export default async function AdminDashboard() {
     redirect("/admin/login");
   }
 
+  // session.user is guaranteed non-null after the redirect above
+  const adminName = session.user.name ?? "Admin";
+
   const [
     publishedProjects,
     draftProjects,
@@ -93,7 +96,7 @@ export default async function AdminDashboard() {
             Dashboard
           </h1>
           <p className="text-white/40 mt-1">
-            Welcome back, {session?.user?.name || "Admin"} — Kacha Creatives CMS
+            Welcome back, {adminName} — Kacha Creatives CMS
           </p>
         </div>
 
