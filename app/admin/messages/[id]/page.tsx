@@ -21,7 +21,7 @@ export default async function MessageDetailPage({
   if (!message) notFound();
 
   // Auto-mark as READ when opened
-  if (message.status === "NEW") {
+  if (message!.status === "NEW") {
     await updateMessageStatus(id, "READ");
   }
 
