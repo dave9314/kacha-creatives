@@ -319,6 +319,8 @@ export async function deleteTestimonialMedia(mediaId: string) {
   revalidatePath("/admin/testimonials");
   return { success: true };
 }
+
+export async function updateTestimonial(id: string, formData: FormData) {
   await requireAdmin();
   await prisma.testimonial.update({
     where: { id },
