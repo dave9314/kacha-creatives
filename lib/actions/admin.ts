@@ -250,7 +250,7 @@ export async function deleteTeamMember(id: string) {
 // ===== TESTIMONIAL ACTIONS =====
 export async function createTestimonial(formData: FormData) {
   await requireAdmin();
-  await prisma.testimonial.create({
+  const t = await prisma.testimonial.create({
     data: {
       clientName: formData.get("clientName") as string,
       company: formData.get("company") as string,
@@ -262,10 +262,63 @@ export async function createTestimonial(formData: FormData) {
   });
   revalidatePath("/admin/testimonials");
   revalidatePath("/");
-  return { success: true };
+  return { success: true, id: t.id };
 }
 
-export async function updateTestimonial(id: string, formData: FormData) {
+export async function uploadTestimonialMedia(
+  testimonialId: string,
+  formData: FormData
+) {
+  await requireAdmin();
+  const supabase = getSupabaseAdmin();
+  const file = formData.get("file") as File;
+  if (!file) return { success: false, error: "No file provided" };
+
+  const isVideo = file.type.startsWith("video/");
+  const isImage = file.type.startsWith("image/");
+  if (!isVideo && !isImage) return { success: false, error: "Invalid file type. Use images or videos." };
+
+  const uniqueName = generateUniqueFilename(file.name);
+  const storagePath = `testimonials/${testimonialId}/${uniqueName}`;
+  const arrayBuffer = await file.arrayBuffer();
+
+  const { data, error } = await supabase.storage
+    .from(BUCKETS.PORTFOLIO)
+    .upload(storagePath, Buffer.from(arrayBuffer), { contentType: file.type });
+
+  if (error) return { success: false, error: "Upload failed" };
+
+  const { data: urlData } = supabase.storage
+    .from(BUCKETS.PORTFOLIO)
+    .getPublicUrl(data.path);
+
+  const media = await prisma.media.create({
+    data: {
+      url: urlData.publicUrl,
+      storagePath: data.path,
+      filename: file.name,
+      mimeType: file.type,
+      type: isVideo ? "VIDEO" : "IMAGE",
+      size: file.size,
+      testimonialId,
+    },
+  });
+
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  return { success: true, media };
+}
+
+export async function deleteTestimonialMedia(mediaId: string) {
+  await requireAdmin();
+  const supabase = getSupabaseAdmin();
+  const media = await prisma.media.findUnique({ where: { id: mediaId } });
+  if (!media) return { success: false };
+  await supabase.storage.from(BUCKETS.PORTFOLIO).remove([media.storagePath]);
+  await prisma.media.delete({ where: { id: mediaId } });
+  revalidatePath("/admin/testimonials");
+  return { success: true };
+}
   await requireAdmin();
   await prisma.testimonial.update({
     where: { id },

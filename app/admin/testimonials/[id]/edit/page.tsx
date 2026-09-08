@@ -15,7 +15,10 @@ export default async function EditTestimonialPage({
   if (!session?.user || session.user.role !== "ADMIN") redirect("/admin/login");
 
   const { id } = await params;
-  const testimonial = await prisma.testimonial.findUnique({ where: { id } });
+  const testimonial = await prisma.testimonial.findUnique({
+    where: { id },
+    include: { media: { orderBy: { createdAt: "asc" } } },
+  });
   if (!testimonial) notFound();
 
   return (

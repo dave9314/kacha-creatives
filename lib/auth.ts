@@ -1,4 +1,4 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
@@ -61,16 +61,15 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,
   },
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
 export { handler };
 
-// Helper to get session in server components / actions
+// Direct server-side session helper (no dynamic import)
 export async function auth() {
-  const { getServerSession } = await import("next-auth/next");
   return getServerSession(authOptions);
 }
 
-export { authOptions as default };
+export default authOptions;

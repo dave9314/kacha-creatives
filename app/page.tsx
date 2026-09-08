@@ -37,6 +37,7 @@ async function getData() {
         }),
         prisma.testimonial.findMany({
           where: { isPublished: true },
+          include: { media: { orderBy: { createdAt: "asc" } } },
           orderBy: { order: "asc" },
         }),
         prisma.comment.findMany({

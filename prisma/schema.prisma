@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 enum Role {
@@ -97,20 +98,23 @@ model PortfolioProject {
 }
 
 model Media {
-  id          String           @id @default(cuid())
-  url         String
-  storagePath String
-  filename    String
-  mimeType    String
-  type        MediaType
-  size        Int
-  order       Int              @default(0)
-  projectId   String?
-  project     PortfolioProject? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  id             String            @id @default(cuid())
+  url            String
+  storagePath    String
+  filename       String
+  mimeType       String
+  type           MediaType
+  size           Int
+  order          Int               @default(0)
+  projectId      String?
+  project        PortfolioProject? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  testimonialId  String?
+  testimonial    Testimonial?      @relation(fields: [testimonialId], references: [id], onDelete: Cascade)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
 
   @@index([projectId])
+  @@index([testimonialId])
   @@index([type])
 }
 
@@ -121,8 +125,13 @@ model Testimonial {
   quote       String
   authorName  String
   logoUrl     String?
+  logoPath    String?
+  mediaUrl    String?
+  mediaPath   String?
+  mediaType   String?
   isPublished Boolean  @default(true)
   order       Int      @default(0)
+  media       Media[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
