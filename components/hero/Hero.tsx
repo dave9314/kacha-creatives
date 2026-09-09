@@ -135,7 +135,7 @@ export default function Hero() {
 
                 {/* Actual photo */}
                 <Image
-                  src="/hero-cameraman.png"
+                  src="/IMG_6329.JPG"
                   alt="Kacha Creatives videographer with gimbal camera"
                   fill
                   className="object-cover object-top"
