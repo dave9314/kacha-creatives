@@ -19,7 +19,7 @@ export default async function EditTestimonialPage({
     where: { id },
     include: { media: { orderBy: { createdAt: "asc" } } },
   });
-  if (!testimonial) notFound();
+  if (!testimonial) { notFound(); return null; }
 
   return (
     <div className="flex min-h-screen">

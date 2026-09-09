@@ -16,7 +16,7 @@ export default async function EditServicePage({
 
   const { id } = await params;
   const service = await prisma.service.findUnique({ where: { id } });
-  if (!service) notFound();
+  if (!service) { notFound(); return null; }
 
   return (
     <div className="flex min-h-screen">

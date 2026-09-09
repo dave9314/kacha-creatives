@@ -29,7 +29,7 @@ export const metadata: Metadata = {
       "Dynamic digital marketing firm in Addis Ababa delivering creative digital content, branding, and media production.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || "https://kachacreatives.com"}/opengraph-image`,
         width: 1200,
         height: 630,
         alt: "Kacha Creatives",

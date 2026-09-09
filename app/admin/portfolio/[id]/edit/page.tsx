@@ -21,7 +21,7 @@ export default async function EditPortfolioPage({
     include: { media: { orderBy: { order: "asc" } } },
   });
 
-  if (!project) notFound();
+  if (!project) { notFound(); return null; }
 
   return (
     <div className="flex min-h-screen">

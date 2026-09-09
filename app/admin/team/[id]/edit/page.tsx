@@ -16,7 +16,7 @@ export default async function EditTeamMemberPage({
 
   const { id } = await params;
   const member = await prisma.teamMember.findUnique({ where: { id } });
-  if (!member) notFound();
+  if (!member) { notFound(); return null; }
 
   return (
     <div className="flex min-h-screen">

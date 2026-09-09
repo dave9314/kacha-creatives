@@ -248,7 +248,9 @@ export async function deleteTeamMember(id: string) {
 }
 
 // ===== TESTIMONIAL ACTIONS =====
-export async function createTestimonial(formData: FormData) {
+export async function createTestimonial(
+  formData: FormData
+): Promise<{ success: boolean; id?: string; error?: string }> {
   await requireAdmin();
   const t = await prisma.testimonial.create({
     data: {
